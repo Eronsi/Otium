@@ -47,6 +47,23 @@ public class CategoriesService : ICategoriesService
         };
     }
 
+    public async Task<BaseResponse<Categories?>> GetCategoryByNameAsync(string name)
+    {
+        var category = await _repository.GetCategoryByNameAsync(name);
+        if (category is null)
+            return new BaseResponse<Categories?>
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Description = "Category not found"
+            };
+
+        return new BaseResponse<Categories?>
+        {
+            StatusCode = HttpStatusCode.OK,
+            Data = category
+        };
+    }
+
     public async Task<BaseResponse<Categories>> CreateCategoryAsync(Categories category)
     {
         var createdCategory = await _repository.CreateCategoryAsync(category);

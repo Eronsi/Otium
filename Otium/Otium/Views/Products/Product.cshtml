@@ -1,0 +1,96 @@
+﻿@model ProductViewModel
+
+@{
+    ViewData["Title"] = Model.Product!.NameRus;
+}
+
+<header>
+    <div class="container productContainer pt-5 pb-5 ">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-xxl-5 col-xl-5 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="container">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @for (var i = 0; i < 3; i++)
+                            {
+                                var imageSrc = $"/img/{Model.Product!.Name}{i}.png";
+                                <div class="carousel-item active">
+                                    <img src=@imageSrc class="d-block w-100" alt="...">
+                                </div>
+                            }
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-5 col-xl-5 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <p class="h6 text-muted text-center">
+                    <@Model.Product!.Description
+                </p>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xxl-1 col-xl-1 col-lg-1 col-md-0 col-sm-0 col-xs-0 "></div>
+            <div class="col-xxl-11 col-xl-11 col-lg-11 col-md-12 col-sm-12 col-xs-12 ">
+                <p class="h5 pb-3 px-0 text-start">Параметры</p>
+            </div>
+            <div class="row">
+                <span class="border-bottom"></span>
+                <form action="/product/@Model.Product.Name" method="post" id="params">
+                    <div class="container">
+                        @foreach (var param in Model.Params!)
+                        {
+                            <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-0 col-sm-0 col-xs-0 "></div>
+                            <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 ">
+                                <p class="h5 pt-2 pb-2">@param.Key.NameRus</p>
+                            </div>
+                            <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 ">
+                                <select class="form-select culcCategory" aria-label="Default select example" name="@param.Key.Name" onchange="sumPrice(@Model.Product.MinPrice)">
+                                    @foreach (var paramValue in param.Value)
+                                    {
+                                        var value = $"{paramValue.NameRus} (+{paramValue.Price}) руб.";
+                                        <option value=@paramValue.Name>@value</option>
+                                    }
+
+                                    @* <?php foreach($param['values'] as $value): ?> *@
+                                    @* <?php if($value['is_selected']): ?> *@
+                                    @* <option value=<?=$value['name']?> selected> *@
+                                    @*     <?=mb_convert_case($value['name_rus'].' (+'.$value['price'], MB_CASE_TITLE, 'UTF-8').' руб.)'?> *@
+                                    @* </option> *@
+                                    @* <?php endif; ?> *@
+                                    @* <?php if(!$value['is_selected']): ?> *@
+                                    @* <option value=<?=$value['name']?>> *@
+                                    @*     <?=mb_convert_case($value['name_rus'].' (+'.$value['price'], MB_CASE_TITLE, 'UTF-8').' руб.)'?> *@
+                                    @* </option> *@
+                                    @* <?php endif; ?> *@
+                                    @* <?php endforeach; ?> *@
+                                </select>
+                            </div>
+                        }
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3 pt-3 pb-3">
+                            <button type="submit" class="btn border border-primary">
+                                <p class="h5">Рассчитать</p>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="fixed-sm-bottom sticky-md-top sticky-lg-top sticky-xl-top text-end px-5 pt-lg-5 mt-5">
+                <p class="h1" id="priceResult">@Model.Product.MinPrice</p>
+                <p class="h1"> руб.</p>
+            </div>
+
+        </div>
+    </div>
+</header>  

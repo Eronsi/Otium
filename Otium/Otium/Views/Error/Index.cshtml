@@ -1,0 +1,22 @@
+﻿@using System.Diagnostics
+@model int
+
+@{
+    ViewData["Title"] = $"Ошибка {Model}";
+    var requestId = Activity.Current?.Id;
+}
+
+<div class="text-center py-4">
+    @switch (Model)
+    {
+        case 404:
+            <h1 class="text-danger">Запрашиваемый ресурс не найден.</h1>
+            break;
+        default:
+            <h1 class="text-danger">Неизвестная ошибка.</h1>
+            break;
+    }
+    <p>
+        <strong>Request ID:</strong> <code>@requestId</code>
+    </p>
+</div>

@@ -11,7 +11,9 @@ public class NewsRepository : BaseRepository, INewsRepository
     }
 
     public async Task<List<News>> GetNewsAsync() =>
-        await _db.News.ToListAsync();
+        await (from news in _db.News
+            orderby news.Id descending
+            select news).ToListAsync();
 
     public async Task<News?> GetNewsByIdAsync(int id) =>
         await _db.News.FirstOrDefaultAsync(news => news.Id == id);

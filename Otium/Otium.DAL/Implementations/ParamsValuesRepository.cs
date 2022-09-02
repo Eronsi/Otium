@@ -6,7 +6,7 @@ namespace Otium.Repositories.Implementations;
 
 public class ParamsValuesRepository : BaseRepository, IParamsValuesRepository
 {
-    protected ParamsValuesRepository(ApplicationDbContext db) : base(db)
+    public ParamsValuesRepository(ApplicationDbContext db) : base(db)
     {
     }
 

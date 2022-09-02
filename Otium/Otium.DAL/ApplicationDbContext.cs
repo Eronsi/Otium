@@ -27,4 +27,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<ParamsValues> ParamsValues { get; set; }
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public DbSet<Products> Products { get; set; }
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public DbSet<Email> Emails { get; set; }
 }

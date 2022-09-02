@@ -13,9 +13,9 @@ public class ParamsService : IParamsService
     public ParamsService(IParamsRepository paramsRepository) =>
         _repository = paramsRepository;
     
-    public async Task<BaseResponse<List<Params>>> GetParamsAsync()
+    public async Task<BaseResponse<List<Params>>> GetParamsAsync(int productId)
     {
-        var paramsList = await _repository.GetParamsAsync();
+        var paramsList = await _repository.GetParamsAsync(productId);
         if (paramsList.Count == 0)
             return new BaseResponse<List<Params>>
             {

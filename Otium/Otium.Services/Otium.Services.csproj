@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Otium.Domain\Otium.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MailKit" Version="3.3.0" />
+    </ItemGroup>
+
 </Project>

@@ -7,5 +7,6 @@ public interface ICategoriesService : IDisposable
 {
     Task<BaseResponse<List<Categories>>> GetAllCategoriesAsync();
     Task<BaseResponse<Categories?>> GetCategoryByIdAsync(int id);
+    Task<BaseResponse<Categories?>> GetCategoryByNameAsync(string name);
     Task<BaseResponse<Categories>> CreateCategoryAsync(Categories category);
 }

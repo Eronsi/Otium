@@ -16,6 +16,9 @@ public class CategoriesRepository : BaseRepository, ICategoriesRepository
     public async Task<Categories?> GetCategoryByIdAsync(int id) =>
         await _db.Categories.FirstOrDefaultAsync(categories => categories.Id == id);
 
+    public async Task<Categories?> GetCategoryByNameAsync(string name) =>
+        await _db.Categories.FirstOrDefaultAsync(categories => categories.Name == name);
+
     public async Task<Categories> CreateCategoryAsync(Categories category)
     {
         var entity = await _db.Categories.AddAsync(category);

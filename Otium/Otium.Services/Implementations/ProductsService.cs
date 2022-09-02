@@ -13,9 +13,9 @@ public class ProductsService : IProductsService
     public ProductsService(IProductsRepository repository) =>
         _repository = repository;
 
-    public async Task<BaseResponse<List<Products>>> GetProductsValuesAsync()
+    public async Task<BaseResponse<List<Products>>> GetProductsByCategoryAsync(string category)
     {
-        var products = await _repository.GetProductsValuesAsync();
+        var products = await _repository.GetProductsByCategoryAsync(category);
         if (products.Count == 0)
             return new BaseResponse<List<Products>>
             {
@@ -30,9 +30,9 @@ public class ProductsService : IProductsService
         };
     }
 
-    public async Task<BaseResponse<Products?>> GetProductByIdAsync(int id)
+    public async Task<BaseResponse<Products?>> GetProductByNameAsync(string name)
     {
-        var product = await _repository.GetProductByIdAsync(id);
+        var product = await _repository.GetProductByNameAsync(name);
         if (product is null)
             return new BaseResponse<Products?>
             {

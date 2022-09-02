@@ -5,7 +5,7 @@ namespace Otium.Services.Abstractions;
 
 public interface IParamsService : IDisposable
 {
-    Task<BaseResponse<List<Params>>> GetParamsAsync();
+    Task<BaseResponse<List<Params>>> GetParamsAsync(int productId);
     Task<BaseResponse<Params?>> GetParamByIdAsync(int id);
     Task<BaseResponse<Params>> AddParamAsync(Params param);
     Task<BaseResponse<Params>> UpdateParamAsync(Params param);

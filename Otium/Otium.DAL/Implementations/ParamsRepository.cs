@@ -6,12 +6,12 @@ namespace Otium.Repositories.Implementations;
 
 public class ParamsRepository : BaseRepository, IParamsRepository
 {
-    protected ParamsRepository(ApplicationDbContext db) : base(db)
+    public ParamsRepository(ApplicationDbContext db) : base(db)
     {
     }
 
-    public async Task<List<Params>> GetParamsAsync() =>
-        await _db.Params.ToListAsync();
+    public async Task<List<Params>> GetParamsAsync(int productId) =>
+        await _db.Params.Where(param => param.ProductId == productId).ToListAsync();
 
     public async Task<Params?> GetParamByIdAsync(int id) =>
         await _db.Params.FirstOrDefaultAsync(x => x.Id == id);

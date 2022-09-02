@@ -6,15 +6,15 @@ namespace Otium.Repositories.Implementations;
 
 public class ProductsRepository : BaseRepository, IProductsRepository
 {
-    protected ProductsRepository(ApplicationDbContext db) : base(db)
+    public ProductsRepository(ApplicationDbContext db) : base(db)
     {
     }
 
-    public async Task<List<Products>> GetProductsValuesAsync() =>
-        await _db.Products.ToListAsync();
+    public async Task<List<Products>> GetProductsByCategoryAsync(string category) =>
+        await _db.Products.Where(p => p.CategoryName == category).ToListAsync();
 
-    public async Task<Products?> GetProductByIdAsync(int id) =>
-        await _db.Products.FirstOrDefaultAsync(p => p.Id == id);
+    public async Task<Products?> GetProductByNameAsync(string name) =>
+        await _db.Products.FirstOrDefaultAsync(p => p.Name == name);
 
     public async Task<Products> AddProductAsync(Products product)
     {
