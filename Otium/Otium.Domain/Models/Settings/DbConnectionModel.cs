@@ -10,13 +10,12 @@ public class DbConnectionModel
     public string? Password { get; set; }
 
     public string ConnectionString =>
-        "data source=IBRAGIMOVS16\\SQLEXPRESS;initial catalog=Otium;trusted_connection=false";
-    // new SqlConnectionStringBuilder
-    // {
-    //     DataSource = DataSource,
-    //     InitialCatalog = InitialCatalog,
-    //     IntegratedSecurity = true,
-    //     UserID = UserId,
-    //     Password = Password
-    // }.ConnectionString;
+        new SqlConnectionStringBuilder
+        {
+            DataSource = DataSource,
+            InitialCatalog = InitialCatalog,
+            IntegratedSecurity = false,
+            UserID = UserId,
+            Password = Password
+        }.ConnectionString;
 }
