@@ -37,7 +37,7 @@ var configuration = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
 
-const bool debug = true;
+const bool debug = false;
 var dbConnectionSettings = configuration.GetSection("MsSql:" + (debug ? "Debug" : "Production"))
     .Get<DbConnectionModel>();
 builder.Services.AddDbContext<ApplicationDbContext>(

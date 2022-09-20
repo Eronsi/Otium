@@ -14,7 +14,7 @@ public class DbConnectionModel
         {
             DataSource = DataSource,
             InitialCatalog = InitialCatalog,
-            IntegratedSecurity = false,
+            IntegratedSecurity = true,
             UserID = UserId,
             Password = Password
         }.ConnectionString;
