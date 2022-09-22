@@ -1,5 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Контакты";
+    const string phone1 = "79776483140";
+    const string tg1 = "";
+    const string phone2 = "79181766881";
+    const string tg2 = "";
+
+    static string BeautifyPhoneNumber(string phone) =>
+        $"+{phone1[0]} ({phone[1..4]}) {phone[4..7]}-{phone[7..9]}-{phone[9..]}";
 }
 
 <div id="About" class="container-fluid py-4 mx-4">
@@ -17,12 +24,12 @@
         </div>
 
         <div class="col-lg-1 col-xl-1 col-xxl-1 mx-4 text-start">
-            <p class="h6 text-dark text-start text-nowrap"> <a href="#" class="show-modal-contact1 link-dark pe-3">+7(977)648-31-40</a>
+            <p class="h6 text-dark text-start text-nowrap"> <a href="#" class="link-dark pe-3" onclick="showModalContact(@phone1, @tg1)">@BeautifyPhoneNumber(phone1)</a>
         </div>
         <div class="col-12"></div>
 
         <div class="col-lg-1 col-xl-1 col-xxl-1 mx-4 text-start">
-            <p class="h6 text-dark text-start text-nowrap"> <a href="#" class="show-modal-contact2 link-dark pe-3">+7(918)176-68-81</a>
+            <p class="h6 text-dark text-start text-nowrap"> <a href="#" class="link-dark pe-3" onclick="showModalContact(@phone2, @tg2)">@BeautifyPhoneNumber(phone2)</a>
         </div>
         <div class="col-xxl-9 col-xl-9 col-lg-9"></div>
     </div>
@@ -39,9 +46,9 @@
             <div class="modal-body">
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls text-center">
-                        <a href="" id="phone" class="px-3 btn"><i class="fa-solid fa-phone"></i> Phone</a>
-                        <a href="" id="tg" class="px-3 btn"><i class="fa-brands fa-telegram text-dark"></i> Telegram</a>
-                        <a href="" id="wa" class="px-3 btn"><i class="fa-brands fa-whatsapp-square text-dark"></i> Whatsapp</a>
+                        <a href="" id="phone" class="px-3 btn" target="_blank"><i class="fa-solid fa-phone"></i> Phone</a>
+                        <a href="" id="tg" class="px-3 btn" target="_blank"><i class="fa-brands fa-telegram text-dark"></i> Telegram</a>
+                        <a href="" id="wa" class="px-3 btn" target="_blank"><i class="fa-brands fa-whatsapp-square text-dark"></i> Whatsapp</a>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
@@ -39,8 +38,7 @@ public class EmailService : IEmailService
         {
             using var smtp = new SmtpClient();
             await smtp.ConnectAsync(_configuration.GetSection("Email:Host").Value, 
-                int.Parse(_configuration.GetSection("Email:Port").Value), 
-                SecureSocketOptions.SslOnConnect);
+                int.Parse(_configuration.GetSection("Email:Port").Value));
             await smtp.AuthenticateAsync(_configuration.GetSection("Email:Username").Value,
                 _configuration.GetSection("Email:Password").Value);
             await smtp.SendAsync(email);

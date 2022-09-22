@@ -8,11 +8,14 @@ using Otium.Services.Abstractions;
 using Otium.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
+const bool debug = false;
 
 // Add services to the container.
-builder.Services
-    .AddControllersWithViews()
-    .AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+if (debug)
+    builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+else builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IAdminsRepository, AdminsRepository>();
 builder.Services.AddScoped<ICallbacksRepository, CallbacksRepository>();
@@ -38,7 +41,6 @@ var configuration = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
 
-const bool debug = false;
 var dbConnectionSettings = configuration.GetSection("MsSql:" + (debug ? "Debug" : "Production"))
     .Get<DbConnectionModel>();
 builder.Services.AddDbContext<ApplicationDbContext>(
