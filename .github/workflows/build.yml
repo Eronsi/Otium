@@ -60,5 +60,14 @@ jobs:
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
+            
+            Results:
             Setup .NET Core SDK result: ${{ steps.setup-dotnet.outcome != 'success' && '❌' || '✅' }} ${{ steps.setup-dotnet.outcome }}
+            Fetch reuslt: ${{ steps.fetch.outcome != 'success' && '❌' || '✅' }} ${{ steps.fetch.outcome }}
+            Pull reuslt: ${{ steps.pull.outcome != 'success' && '❌' || '✅' }} ${{ steps.pull.outcome }}
+            Install dependencies result: ${{ steps.dependencies.outcome != 'success' && '❌' || '✅' }} ${{ steps.dependencies.outcome }}
+            Build result: ${{ steps.build.outcome != 'success' && '❌' || '✅' }} ${{ steps.build.outcome }}
+            Publish result: ${{ steps.publish.outcome != 'success' && '❌' || '✅' }} ${{ steps.publish.outcome }}
+            Restart the service result: ${{ steps.restart-service.outcome != 'success' && '❌' || '✅' }} ${{ steps.restart-service.outcome }}
+            
     
