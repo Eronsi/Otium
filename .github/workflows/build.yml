@@ -1,13 +1,33 @@
-on: [push]
-
 name: otium
 
-env:
-  DOTNET_CLI_HOME: /usr/bin/dotnet
+on: 
+  push:
+    branches: [master]
 
 jobs:
   deploy:
     runs-on: self-hosted
+    
+    strategy:
+      matrix:
+        dotnet: ["6.0.X"]
+    
     steps:
-     - name: Deploy app
-       run: sh /root/work/Otium/build.sh
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+        
+      - name: Publish
+        run: dotnet publish -c Release -o /root/work/Otium/Otium/Release
+        
+      - name: Restart the service
+        run: |
+          systemctl restart otiumbuild.service
