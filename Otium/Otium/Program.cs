@@ -33,6 +33,8 @@ builder.Services.AddScoped<IParamsValuesService, ParamsValuesService>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+// Getting configuration from appsettings.json
+
 var configuration = new ConfigurationBuilder()
     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
     .AddJsonFile("appsettings.json", true, true)
