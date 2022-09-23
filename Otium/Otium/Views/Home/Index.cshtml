@@ -1,119 +1,119 @@
-﻿@model IndexViewModel
-@{
-    ViewData["Title"] = "Главная страница";
-}
-
-<div id="carouselExampleIndicators" class="carousel slide p-0" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="~/img/Artboard1.png" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                <div class="p-3" style="max-width: 900px;">
-                    <h1 class="display-2 text-uppercase text-white mb-md-4">Быстро</h1>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="~/img/Artboard2.png" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                <div class="p-3" style="max-width: 900px;">
-                    <h1 class="display-2 text-uppercase text-white mb-md-4">Надёжно</h1>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="~/img/Artboard3.png" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                <div class="p-3" style="max-width: 900px;">
-                    <h1 class="display-2 text-uppercase text-white mb-md-4">Качественно</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-<div class="col-2"></div>
-<div class="container-fluid">
-    <div class="row align-items-center">
-        <div class="col-12">
-            <h1 class="display-4 text-dark text-center mb-md-4 py-5">Категории товаров</h1>
-        </div>
-        <div class="container-fluid category_container">
-            <div class="row">
-                @for (var i = 0; i < Model.RowsCount * 3; i++)
-                {
-                    var imagePath = $"/img/{Model.Categories![i].Name}.svg";
-
-                    <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
-                        <a href="Products/@Model.Categories![i].Name" class="card">
-                            <div class="card_image_container">
-                                <img src="@imagePath" alt="@Model.Categories[i].NameRus" class="card_image">
-                            </div>
-                            <p class="h4 text-dark text-center catalog_title">@Model.Categories[i].NameRus</p>
-                        </a>
-                    </div>
-                }
-
-                @if (Model.RemainColumnsCount == 2)
-                {
-                    var index = Model.CategoriesCount > 3
-                        ? Model.CategoriesCount - 2
-                        : 0;
-                    var imgPath1 = $"/img/{Model.Categories![index].Name}.svg";
-                    var imgPath2 = $"/img/{Model.Categories![index + 1].Name}.svg";
-
-                    <div class="p-3 col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12"></div>
-                    <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
-                        <a href="Products/@Model.Categories![index].Name" class="card">
-                            <div class="card_image_container">
-                                <img src="@imgPath1" alt="@Model.Categories![index].Name" class="card_image">
-                            </div>
-                            <p class="h4 text-dark text-center catalog_title">@Model.Categories[index].NameRus</p>
-                        </a>
-                    </div>
-
-                    <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
-                        <a href="Products/@Model.Categories![index + 1].Name" class="card">
-                            <div class="card_image_container">
-                                <img src="@imgPath2" alt="@Model.Categories![index + 1].Name" class="card_image">
-                            </div>
-                            <p class="h4 text-dark text-center catalog_title">@Model.Categories[index + 1].NameRus</p>
-                        </a>
-                    </div>
-                    <div class="p-3 col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12"></div>
-                }
-
-                @if (Model.RemainColumnsCount == 1)
-                {
-                    var index = Model.CategoriesCount > 3
-                        ? Model.CategoriesCount - 1
-                        : 0;
-                    var imgPath1 = $"/img/{Model.Categories![index].Name}.svg";
-
-                    <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12"></div>
-                    <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
-                        <a href="Products/@Model.Categories[index].Name" class="card">
-                            <div class="card_image_container">
-                                <img src="@imgPath1" alt="@Model.Categories[index].NameRus" class="card_image">
-                            </div>
-                            <p class="h4 text-dark text-center catalog_title">@Model.Categories[index].NameRus</p>
-                        </a>
-                    </div>
-                    <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12"></div>
-                }
-            </div>
-        </div>
-    </div>
-</div>
+﻿@* @model IndexViewModel *@
+@* @{ *@
+@*     ViewData["Title"] = "Главная страница"; *@
+@* } *@
+@* *@
+@* <div id="carouselExampleIndicators" class="carousel slide p-0" data-bs-ride="carousel"> *@
+@*     <div class="carousel-indicators"> *@
+@*         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button> *@
+@*         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button> *@
+@*         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button> *@
+@*     </div> *@
+@*     <div class="carousel-inner"> *@
+@*         <div class="carousel-item active"> *@
+@*             <img src="~/img/Artboard1.png" class="d-block w-100" alt="..."> *@
+@*             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center"> *@
+@*                 <div class="p-3" style="max-width: 900px;"> *@
+@*                     <h1 class="display-2 text-uppercase text-white mb-md-4">Быстро</h1> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <img src="~/img/Artboard2.png" class="d-block w-100" alt="..."> *@
+@*             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center"> *@
+@*                 <div class="p-3" style="max-width: 900px;"> *@
+@*                     <h1 class="display-2 text-uppercase text-white mb-md-4">Надёжно</h1> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <img src="~/img/Artboard3.png" class="d-block w-100" alt="..."> *@
+@*             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center"> *@
+@*                 <div class="p-3" style="max-width: 900px;"> *@
+@*                     <h1 class="display-2 text-uppercase text-white mb-md-4">Качественно</h1> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@*     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev"> *@
+@*         <span class="carousel-control-prev-icon" aria-hidden="true"></span> *@
+@*         <span class="visually-hidden">Previous</span> *@
+@*     </button> *@
+@*     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next"> *@
+@*         <span class="carousel-control-next-icon" aria-hidden="true"></span> *@
+@*         <span class="visually-hidden">Next</span> *@
+@*     </button> *@
+@* </div> *@
+@* <div class="col-2"></div> *@
+@* <div class="container-fluid"> *@
+@*     <div class="row align-items-center"> *@
+@*         <div class="col-12"> *@
+@*             <h1 class="display-4 text-dark text-center mb-md-4 py-5">Категории товаров</h1> *@
+@*         </div> *@
+@*         <div class="container-fluid category_container"> *@
+@*             <div class="row"> *@
+@*                 @for (var i = 0; i < Model.RowsCount * 3; i++) *@
+@*                 { *@
+@*                     var imagePath = $"/img/{Model.Categories![i].Name}.svg"; *@
+@* *@
+@*                     <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center"> *@
+@*                         <a href="Products/@Model.Categories![i].Name" class="card"> *@
+@*                             <div class="card_image_container"> *@
+@*                                 <img src="@imagePath" alt="@Model.Categories[i].NameRus" class="card_image"> *@
+@*                             </div> *@
+@*                             <p class="h4 text-dark text-center catalog_title">@Model.Categories[i].NameRus</p> *@
+@*                         </a> *@
+@*                     </div> *@
+@*                 } *@
+@* *@
+@*                 @if (Model.RemainColumnsCount == 2) *@
+@*                 { *@
+@*                     var index = Model.CategoriesCount > 3 *@
+@*                         ? Model.CategoriesCount - 2 *@
+@*                         : 0; *@
+@*                     var imgPath1 = $"/img/{Model.Categories![index].Name}.svg"; *@
+@*                     var imgPath2 = $"/img/{Model.Categories![index + 1].Name}.svg"; *@
+@* *@
+@*                     <div class="p-3 col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12"></div> *@
+@*                     <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center"> *@
+@*                         <a href="Products/@Model.Categories![index].Name" class="card"> *@
+@*                             <div class="card_image_container"> *@
+@*                                 <img src="@imgPath1" alt="@Model.Categories![index].Name" class="card_image"> *@
+@*                             </div> *@
+@*                             <p class="h4 text-dark text-center catalog_title">@Model.Categories[index].NameRus</p> *@
+@*                         </a> *@
+@*                     </div> *@
+@* *@
+@*                     <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center"> *@
+@*                         <a href="Products/@Model.Categories![index + 1].Name" class="card"> *@
+@*                             <div class="card_image_container"> *@
+@*                                 <img src="@imgPath2" alt="@Model.Categories![index + 1].Name" class="card_image"> *@
+@*                             </div> *@
+@*                             <p class="h4 text-dark text-center catalog_title">@Model.Categories[index + 1].NameRus</p> *@
+@*                         </a> *@
+@*                     </div> *@
+@*                     <div class="p-3 col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12"></div> *@
+@*                 } *@
+@* *@
+@*                 @if (Model.RemainColumnsCount == 1) *@
+@*                 { *@
+@*                     var index = Model.CategoriesCount > 3 *@
+@*                         ? Model.CategoriesCount - 1 *@
+@*                         : 0; *@
+@*                     var imgPath1 = $"/img/{Model.Categories![index].Name}.svg"; *@
+@* *@
+@*                     <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12"></div> *@
+@*                     <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center"> *@
+@*                         <a href="Products/@Model.Categories[index].Name" class="card"> *@
+@*                             <div class="card_image_container"> *@
+@*                                 <img src="@imgPath1" alt="@Model.Categories[index].NameRus" class="card_image"> *@
+@*                             </div> *@
+@*                             <p class="h4 text-dark text-center catalog_title">@Model.Categories[index].NameRus</p> *@
+@*                         </a> *@
+@*                     </div> *@
+@*                     <div class="p-3 col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12"></div> *@
+@*                 } *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
