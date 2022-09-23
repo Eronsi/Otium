@@ -21,6 +21,12 @@ jobs:
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+          
+      - name: Fetch
+        run: cd /root/work/Otium/Otium && git fetch
+        
+      - name: Pull
+        run: cd /root/work/Otium/Otium && git pull
 
       - name: Install dependencies
         run: cd /root/work/Otium/Otium && dotnet restore
