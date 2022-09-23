@@ -3,6 +3,9 @@ name: otium
 on: 
   push:
     branches: [main]
+    
+env:
+  DOTNET_CLI_HOME: /temp
 
 jobs:
   deploy:
