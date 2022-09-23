@@ -2,6 +2,9 @@ on: [push]
 
 name: otium
 
+env:
+  DOTNET_CLI_HOME: /usr/bin/dotnet
+
 jobs:
   deploy:
     runs-on: self-hosted
