@@ -52,5 +52,6 @@ jobs:
             Commit message: ${{ github.event.commits[0].message }}
             
             Repository: ${{ github.repository }}
-            Actions status: ${{ github.action.workflows }}
+            Actions status: <b>${{ github.event_name }}/${{ github.event.action }}</b> by ${{ needs.tguser.outputs.tguser }} (${{ github.actor }}) in ${{ github.event.issue.title }} ${{ github.event.issue.html_url }}:
+            ${{ github.event.comment.body }} ${{ github.event.comment.html_url }}
     
