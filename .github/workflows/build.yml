@@ -1,0 +1,10 @@
+on: [push]
+
+name: otium
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+     - name: Deploy app
+       run: exit 0
