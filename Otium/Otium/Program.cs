@@ -8,14 +8,8 @@ using Otium.Services.Abstractions;
 using Otium.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
-const bool debug = false;
 
-// Add services to the container.
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
-if (debug)
-    builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-else builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IAdminsRepository, AdminsRepository>();
 builder.Services.AddScoped<ICallbacksRepository, CallbacksRepository>();
@@ -41,7 +35,7 @@ var configuration = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
 
-var dbConnectionSettings = configuration.GetSection("MsSql:" + (debug ? "Debug" : "Production"))
+var dbConnectionSettings = configuration.GetSection("MsSql:Production")
     .Get<DbConnectionModel>();
 builder.Services.AddDbContext<ApplicationDbContext>(
     o => o.UseSqlServer(
@@ -55,9 +49,9 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
 }
+
+app.UseHsts();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
