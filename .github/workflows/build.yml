@@ -23,13 +23,13 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Install dependencies
-        run: dotnet restore
+        run: cd /root/work/Otium/Otium && dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: cd /root/work/Otium/Otium && dotnet build --configuration Release --no-restore
         
       - name: Publish
-        run: dotnet publish -c Release -o /root/work/Otium/Otium/Release
+        run: cd /root/work/Otium/Otium && dotnet publish -c Release -o /root/work/Otium/Otium/Release
         
       - name: Restart the service
         run: |
