@@ -6,6 +6,7 @@ on:
     
 env:
   DOTNET_CLI_HOME: /temp
+  REPOSITORY: Otium
 
 jobs:
   deploy:
