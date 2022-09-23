@@ -7,7 +7,7 @@ using Otium.Repositories.Interfaces;
 using Otium.Services.Abstractions;
 using Otium.Services.Implementations;
 
-// var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
