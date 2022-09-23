@@ -7,7 +7,7 @@ using Otium.Repositories.Interfaces;
 using Otium.Services.Abstractions;
 using Otium.Services.Implementations;
 
-var builder = WebApplication.CreateBuilder(args);
+// var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
@@ -15,7 +15,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IAdminsRepository, AdminsRepository>();
 builder.Services.AddScoped<ICallbacksRepository, CallbacksRepository>();
-// builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>(); 
+builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>(); 
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<IParamsRepository, ParamsRepository>();
 builder.Services.AddScoped<IParamsValuesRepository, ParamsValuesRepository>();
