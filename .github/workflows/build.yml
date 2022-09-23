@@ -6,6 +6,7 @@ on:
     
 env:
   DOTNET_CLI_HOME: /temp
+  REPOSITORY: Otium
 
 jobs:
   deploy:
@@ -18,25 +19,55 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        id: setup-dotnet
         uses: actions/setup-dotnet@v1.7.2
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           
       - name: Fetch
+        id: fetch
         run: cd /root/work/Otium/Otium && git fetch
         
       - name: Pull
+        id: pull
         run: cd /root/work/Otium/Otium && git pull
 
       - name: Install dependencies
+        id: dependencies
         run: cd /root/work/Otium/Otium && dotnet restore
 
       - name: Build
+        id: build
         run: cd /root/work/Otium/Otium && dotnet build --configuration Release --no-restore
         
       - name: Publish
+        id: publish
         run: cd /root/work/Otium/Otium && dotnet publish -c Release -o /root/work/Otium/Otium/Release
         
       - name: Restart the service
+        id: restart-service
         run: |
           systemctl restart otiumbuild.service
+        
+          
+      - name: Send a notification to telegram
+        if: always()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            Repository: ${{ github.repository }}
+            
+            Results:
+            Setup .NET Core SDK result: ${{ steps.setup-dotnet.outcome != 'success' && '❌' || '✅' }} ${{ steps.setup-dotnet.outcome }}
+            Fetch reuslt: ${{ steps.fetch.outcome != 'success' && '❌' || '✅' }} ${{ steps.fetch.outcome }}
+            Pull reuslt: ${{ steps.pull.outcome != 'success' && '❌' || '✅' }} ${{ steps.pull.outcome }}
+            Install dependencies result: ${{ steps.dependencies.outcome != 'success' && '❌' || '✅' }} ${{ steps.dependencies.outcome }}
+            Build result: ${{ steps.build.outcome != 'success' && '❌' || '✅' }} ${{ steps.build.outcome }}
+            Publish result: ${{ steps.publish.outcome != 'success' && '❌' || '✅' }} ${{ steps.publish.outcome }}
+            Restart the service result: ${{ steps.restart-service.outcome != 'success' && '❌' || '✅' }} ${{ steps.restart-service.outcome }}
+            
+    
