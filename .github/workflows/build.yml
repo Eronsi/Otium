@@ -41,6 +41,11 @@ jobs:
         run: |
           systemctl restart otiumbuild.service
           
+      - name: Export jobs id and conclusi
+        run: |
+          echo 'JOB_ID_1=${{ fromJson(steps.get_jobs_id.outputs.data).jobs[0].id }}' >> $GITHUB_ENV
+          echo 'JOB_CONCLUSION_1=${{ fromJson(steps.get_jobs_id.outputs.data).jobs[0].conclusion }}' >> $GITHUB_ENV
+          
       - name: Send a notification to telegram
         if: always()
         uses: appleboy/telegram-action@master
@@ -52,4 +57,8 @@ jobs:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
             Build Details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            Build Summary:
+              * [${{ env.JOB_CONCLUSION_1 }}] pre-action-stage: ${{ github.server_url }}/${{ github.repository }}/runs/${{ env.JOB_ID_1 }}?check_suite_focus=true
+              * [success] post-action-stage: success - ${{ github.server_url }}/${{ github.repository }}/runs/${{ env.JOB_ID_3 }}?check_suite_focus=true
     
