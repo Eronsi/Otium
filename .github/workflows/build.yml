@@ -7,4 +7,4 @@ jobs:
     runs-on: self-hosted
     steps:
      - name: Deploy app
-       run: exit 0
+       run: pwd
