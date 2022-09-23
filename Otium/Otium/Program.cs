@@ -35,7 +35,7 @@ var configuration = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
 
-var dbConnectionSettings = configuration.GetSection("MsSql:Production")
+var dbConnectionSettings = configuration.GetSection("MsSql")
     .Get<DbConnectionModel>();
 builder.Services.AddDbContext<ApplicationDbContext>(
     o => o.UseSqlServer(
