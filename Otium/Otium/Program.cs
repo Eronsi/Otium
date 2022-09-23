@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+// Setting up the DI for the repositories
+
 builder.Services.AddScoped<IAdminsRepository, AdminsRepository>();
 builder.Services.AddScoped<ICallbacksRepository, CallbacksRepository>();
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>(); 
@@ -19,6 +21,8 @@ builder.Services.AddScoped<IParamsRepository, ParamsRepository>();
 builder.Services.AddScoped<IParamsValuesRepository, ParamsValuesRepository>();
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+
+// Setting up the DI for the services
 
 builder.Services.AddScoped<IAdminService, AdminsService>();
 builder.Services.AddScoped<ICallbacksService, CallbacksService>();
