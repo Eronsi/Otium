@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd /root/work/Otium
 echo Fetch...
 git fetch
 git status
