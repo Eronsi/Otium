@@ -7,4 +7,4 @@ jobs:
     runs-on: self-hosted
     steps:
      - name: Deploy app
-       run: pwd
+       run: sh /root/work/Otium/build.sh

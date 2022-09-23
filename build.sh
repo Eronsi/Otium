@@ -1,5 +1,14 @@
 #!/bin/bash
 
-systemctl stop otiumbuild.service
+echo Fetch...
+git fetch
+git status
+echo Pull...
+git pull
+echo Start building...
 cd /root/work/Otium/Otium/Otium && dotnet publish -c Release -o ../Release
-systemctl start otiumbuild.service
+echo Build end.
+echo Restarting service...
+systemctl restart otiumbuild.service
+echo Service restared.
+echo Done!
