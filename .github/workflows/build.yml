@@ -50,8 +50,8 @@ jobs:
 
     steps:
       - name: Remove src of app
-      id: remove-src
-      run: rm -rf /tmp/Otium
+        id: remove-src
+        run: rm -rf /tmp/Otium
   
   restart:
     steps:
