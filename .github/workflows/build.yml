@@ -56,8 +56,8 @@ jobs:
   restart:
     steps:
       - name: Restart the service
-      id: restart-service
-      run: systemctl restart otiumbuild.service
+        id: restart-service
+        run: systemctl restart otiumbuild.service
 
   send-notify:
     stetps:
