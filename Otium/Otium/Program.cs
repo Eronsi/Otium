@@ -9,7 +9,15 @@ using Otium.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#if DEBUG
+builder.Services.AddControllersWithViews()
+    .AddRazorRuntimeCompilation();
+
+Console.WriteLine("Debug mode");
+#else
 builder.Services.AddControllersWithViews();
+System.Console.WriteLine("Release mode");
+#endif
 
 // Setting up the DI for the repositories
 
