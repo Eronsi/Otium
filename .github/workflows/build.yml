@@ -31,6 +31,7 @@ jobs:
       
   publish:
     name: Build and publish app
+    runs-on: self-hosted
 
     steps:
       - name: Install dependencies
@@ -47,6 +48,7 @@ jobs:
 
   cleanup:
     name: Cleanup after building
+    runs-on: self-hosted
 
     steps:
       - name: Remove src of app
@@ -54,12 +56,14 @@ jobs:
         run: rm -rf /tmp/Otium
   
   restart:
+    runs-on: self-hosted
     steps:
       - name: Restart the service
         id: restart-service
         run: systemctl restart otiumbuild.service
 
   send-notify:
+    runs-on: self-hosted
     stetps:
       - name: Send a notification to telegram
         if: always()
