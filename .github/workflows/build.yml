@@ -64,7 +64,7 @@ jobs:
 
   send-notify:
     runs-on: self-hosted
-    stetps:
+    steps:
       - name: Send a notification to telegram
         if: always()
         uses: appleboy/telegram-action@master
