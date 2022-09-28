@@ -64,31 +64,29 @@
                 <h5 class="modal-title">Заказать обратный звонок</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-          <div class="modal-body text-center">
-            <p class="text-center">InDev...</p>
-            @* ToDo: Get the secret to the controller to send the message *@
-            @* <form id="callback" method="post" asp-action="Callback" asp-controller="Home"> *@
-            @*     <div class="control-group"> *@
-            @*         <div class="form-group floating-label-form-group controls"> *@
-            @*             <p><input type="text" class="form-control" name="name" placeholder="Имя"></p> *@
-            @*         </div> *@
-            @*     </div> *@
-            @*     <div class="control-group"> *@
-            @*         <div class="form-group floating-label-form-group controls"> *@
-            @*             <p><input type="text" class="form-control" name="phone" placeholder="Номер телефона"></p> *@
-            @*         </div> *@
-            @*     </div> *@
-            @*     <div class="control-group"> *@
-            @*         <div class="form-group floating-label-form-group controls"> *@
-            @*             <p><textarea rows="5" class="form-control" name="text" placeholder="Ваш вопрос"></textarea></p> *@
-            @*         </div> *@
-            @*     </div> *@
-            @*     <br> *@
-            @*     <div id="success"></div> *@
-            @*     <div class="modal-footer"> *@
-            @*         <button type="submit" class="feedback-btn btn btn-primary">Отправить</button> *@
-            @*     </div> *@
-            @* </form> *@
+          <div class="modal-body">
+              <form id="callback" method="post" asp-action="Callback" asp-controller="Home">
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <p><input type="text" class="form-control" name="name" placeholder="Имя"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <p><input type="text" class="form-control" name="phone" placeholder="Номер телефона"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <p><textarea rows="5" class="form-control" name="text" placeholder="Ваш вопрос"></textarea></p>
+                    </div>
+                </div>
+                <br>
+                <div id="success"></div>
+                <div class="modal-footer">
+                    <button type="submit" class="feedback-btn btn btn-primary">Отправить</button>
+                </div>
+            </form>
           </div>
         </div>
     </div>

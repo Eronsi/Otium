@@ -11,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var aspEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 var appSettingsPath = "appsettings" + (aspEnv is null ? "" : $".{aspEnv}") + ".json";
-Console.WriteLine(appSettingsPath);
 
 #if DEBUG
 builder.Services.AddControllersWithViews()
