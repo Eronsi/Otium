@@ -20,7 +20,7 @@ public class NewsService : INewsService
             return new BaseResponse<List<News>>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "No news found"
+                Message = "No news found"
             };
 
         return new BaseResponse<List<News>>
@@ -37,7 +37,7 @@ public class NewsService : INewsService
             return new BaseResponse<News?>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "News not found"
+                Message = "News not found"
             };
 
         return new BaseResponse<News?>
@@ -54,7 +54,7 @@ public class NewsService : INewsService
             return new BaseResponse<News>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "News not added"
+                Message = "News not added"
             };
 
         return new BaseResponse<News>
@@ -71,7 +71,7 @@ public class NewsService : INewsService
             return new BaseResponse<News>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "News not updated"
+                Message = "News not updated"
             };
 
         return new BaseResponse<News>
@@ -88,7 +88,7 @@ public class NewsService : INewsService
             return new BaseResponse<bool>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "News not deleted"
+                Message = "News not deleted"
             };
 
         return new BaseResponse<bool>

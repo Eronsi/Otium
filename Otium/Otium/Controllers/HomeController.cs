@@ -2,22 +2,20 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Otium.Domain.Models;
-using Otium.Models;
+using Otium.Domain.ViewModels;
 using Otium.Services.Abstractions;
 
 namespace Otium.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly ICategoriesService _categoriesService;
     private readonly IConfiguration _configuration;
     private readonly IEmailService _emailService;
 
-    public HomeController(ILogger<HomeController> logger, ICategoriesService categoriesService, IEmailService emailService, 
+    public HomeController(ICategoriesService categoriesService, IEmailService emailService, 
         IConfiguration configuration)
     {
-        _logger = logger;
         _categoriesService = categoriesService;
         _emailService = emailService;
         _configuration = configuration;
@@ -55,7 +53,7 @@ public class HomeController : Controller
         };
         var result = await _emailService.SendEmailAsync(email);
         if (result.StatusCode != HttpStatusCode.OK)
-            return Content(result.Description);
+            return Content(result.Message);
         
         return Content("Обратный звонок успешно заказан.<br>В ближайшее время мы свяжемся с вами." +
                        $"<br>Номер вашкей заявки: {result.Data}");

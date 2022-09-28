@@ -29,4 +29,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Products> Products { get; set; }
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public DbSet<Email> Emails { get; set; }
+    
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public DbSet<User> Users { get; set; }
 }

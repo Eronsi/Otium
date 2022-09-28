@@ -30,7 +30,7 @@ public class EmailService : IEmailService
             return new BaseResponse<Guid>
             {
                 StatusCode = HttpStatusCode.BadRequest,
-                Description = "Некорректный адрес получателя"
+                Message = "Некорректный адрес получателя"
             };
         email.To.Add(to);
 
@@ -56,7 +56,7 @@ public class EmailService : IEmailService
             return new BaseResponse<Guid>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = e.Message
+                Message = e.Message
             };
         }
     }

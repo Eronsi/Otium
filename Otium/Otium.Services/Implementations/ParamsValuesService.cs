@@ -30,7 +30,7 @@ public class ParamsValuesService : IParamsValuesService
             return new BaseResponse<ParamsValues?>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "Param value not found"
+                Message = "Param value not found"
             };
 
         return new BaseResponse<ParamsValues?>
@@ -47,7 +47,7 @@ public class ParamsValuesService : IParamsValuesService
             return new BaseResponse<List<ParamsValues>>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "Param values not found"
+                Message = "Param values not found"
             };
 
         return new BaseResponse<List<ParamsValues>>
@@ -64,7 +64,7 @@ public class ParamsValuesService : IParamsValuesService
             return new BaseResponse<ParamsValues>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Error adding param value"
+                Message = "Error adding param value"
             };
 
         return new BaseResponse<ParamsValues>
@@ -81,7 +81,7 @@ public class ParamsValuesService : IParamsValuesService
             return new BaseResponse<ParamsValues>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Error updating param value"
+                Message = "Error updating param value"
             };
 
         return new BaseResponse<ParamsValues>
@@ -98,7 +98,7 @@ public class ParamsValuesService : IParamsValuesService
             return new BaseResponse<bool>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Error deleting param value"
+                Message = "Error deleting param value"
             };
 
         return new BaseResponse<bool>

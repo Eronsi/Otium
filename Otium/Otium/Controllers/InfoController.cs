@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Otium.Models;
+using Otium.Domain.ViewModels;
 
 namespace Otium.Controllers;
 

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
@@ -14,6 +15,13 @@ builder.Logging.ClearProviders();
 builder.Logging.SetMinimumLevel(LogLevel.Trace);
 builder.Host.UseNLog();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = new PathString("/Admin/Login");
+        options.AccessDeniedPath = new PathString("/Admin/Login");
+    });
+
 var aspEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 var appSettingsPath = "appsettings" + (aspEnv is null ? "" : $".{aspEnv}") + ".json";
 
@@ -29,7 +37,7 @@ System.Console.WriteLine("Release mode");
 
 // Setting up the DI for the repositories
 
-builder.Services.AddScoped<IAdminsRepository, AdminsRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICallbacksRepository, CallbacksRepository>();
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>(); 
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
@@ -40,7 +48,7 @@ builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 
 // Setting up the DI for the services
 
-builder.Services.AddScoped<IAdminService, AdminsService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICallbacksService, CallbacksService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<INewsService, NewsService>();
@@ -82,6 +90,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -91,7 +100,7 @@ app.MapControllerRoute(
 app.Use(async (ctx, next) =>
 {
     await next();
-    if (ctx.Response.StatusCode != 200)
+    if (ctx.Response.StatusCode != 200 && ctx.Response.StatusCode != 302)
         ctx.Response.Redirect($"/Error/{ctx.Response.StatusCode}");
 });
 

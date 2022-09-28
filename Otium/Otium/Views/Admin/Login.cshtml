@@ -1,0 +1,12 @@
+﻿@model Otium.Domain.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Вход";
+}
+
+<form autocomplete="on" method="post" asp-controller="Admin" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+    <div asp-validation-summary="All" class="text-danger text-center"></div>
+    <input autocomplete="username" asp-for="Username" placeholder="Логин" type="text">
+    <input autocomplete="password" asp-for="Password" placeholder="Пароль" type="password">
+    <button>Отправить</button>
+</form>

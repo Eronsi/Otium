@@ -20,7 +20,7 @@ public class CategoriesService : ICategoriesService
             return new BaseResponse<List<Categories>>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "No categories found"
+                Message = "No categories found"
             };
 
         return new BaseResponse<List<Categories>>
@@ -37,7 +37,7 @@ public class CategoriesService : ICategoriesService
             return new BaseResponse<Categories?>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "Category not found"
+                Message = "Category not found"
             };
 
         return new BaseResponse<Categories?>
@@ -54,7 +54,7 @@ public class CategoriesService : ICategoriesService
             return new BaseResponse<Categories?>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "Category not found"
+                Message = "Category not found"
             };
 
         return new BaseResponse<Categories?>
@@ -71,7 +71,7 @@ public class CategoriesService : ICategoriesService
             return new BaseResponse<Categories>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Category not created"
+                Message = "Category not created"
             };
 
         return new BaseResponse<Categories>

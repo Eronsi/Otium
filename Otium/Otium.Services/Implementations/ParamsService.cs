@@ -20,7 +20,7 @@ public class ParamsService : IParamsService
             return new BaseResponse<List<Params>>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "No params found"
+                Message = "No params found"
             };
 
         return new BaseResponse<List<Params>>
@@ -37,7 +37,7 @@ public class ParamsService : IParamsService
             return new BaseResponse<Params?>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "Param not found"
+                Message = "Param not found"
             };
 
         return new BaseResponse<Params?>
@@ -54,7 +54,7 @@ public class ParamsService : IParamsService
             return new BaseResponse<Params>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Param not added"
+                Message = "Param not added"
             };
 
         return new BaseResponse<Params>
@@ -71,7 +71,7 @@ public class ParamsService : IParamsService
             return new BaseResponse<Params>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Param not updated"
+                Message = "Param not updated"
             };
 
         return new BaseResponse<Params>
@@ -88,7 +88,7 @@ public class ParamsService : IParamsService
             return new BaseResponse<bool>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "News not deleted"
+                Message = "News not deleted"
             };
 
         return new BaseResponse<bool>

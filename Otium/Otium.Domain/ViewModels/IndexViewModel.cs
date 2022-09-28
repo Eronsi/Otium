@@ -1,6 +1,6 @@
 ﻿using Otium.Domain.Models;
 
-namespace Otium.Models;
+namespace Otium.Domain.ViewModels;
 
 public class IndexViewModel
 {

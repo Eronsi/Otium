@@ -20,7 +20,7 @@ public class CallbacksService : ICallbacksService
             return new BaseResponse<List<Callbacks>>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "No callbacks found"
+                Message = "No callbacks found"
             };
 
         return new BaseResponse<List<Callbacks>>
@@ -37,7 +37,7 @@ public class CallbacksService : ICallbacksService
             return new BaseResponse<Callbacks?>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "Callback not found"
+                Message = "Callback not found"
             };
 
         return new BaseResponse<Callbacks?>
@@ -54,7 +54,7 @@ public class CallbacksService : ICallbacksService
             return new BaseResponse<Callbacks>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Callback not created"
+                Message = "Callback not created"
             };
 
         return new BaseResponse<Callbacks>

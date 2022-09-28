@@ -20,7 +20,7 @@ public class ProductsService : IProductsService
             return new BaseResponse<List<Products>>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "No products found"
+                Message = "No products found"
             };
 
         return new BaseResponse<List<Products>>
@@ -37,7 +37,7 @@ public class ProductsService : IProductsService
             return new BaseResponse<Products?>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Description = "Product not found"
+                Message = "Product not found"
             };
 
         return new BaseResponse<Products?>
@@ -54,7 +54,7 @@ public class ProductsService : IProductsService
             return new BaseResponse<Products>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Error adding product"
+                Message = "Error adding product"
             };
 
         return new BaseResponse<Products>
@@ -71,7 +71,7 @@ public class ProductsService : IProductsService
             return new BaseResponse<Products>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Error updating product"
+                Message = "Error updating product"
             };
 
         return new BaseResponse<Products>
@@ -88,7 +88,7 @@ public class ProductsService : IProductsService
             return new BaseResponse<bool>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Description = "Error deleting product"
+                Message = "Error deleting product"
             };
 
         return new BaseResponse<bool>

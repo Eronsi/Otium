@@ -2,7 +2,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Otium.Domain.Models;
-using Otium.Models;
+using Otium.Domain.ViewModels;
 using Otium.Services.Abstractions;
 
 namespace Otium.Controllers;
