@@ -38,7 +38,7 @@ jobs:
         
       - name: Publish
         id: publish
-        run: cd /tmp/Otium/Otium && dotnet publish -c Release -o /root/work/otium/release
+        run: cd /tmp/Otium/Otium && dotnet publish -c Release -o /var/www/otium/release
 
       - name: Remove app src
         id: remove-src
