@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 using Otium.Domain.Models.Settings;
 using Otium.Repositories;
 using Otium.Repositories.Implementations;
@@ -8,6 +9,10 @@ using Otium.Services.Abstractions;
 using Otium.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
+builder.Host.UseNLog();
 
 var aspEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 var appSettingsPath = "appsettings" + (aspEnv is null ? "" : $".{aspEnv}") + ".json";
