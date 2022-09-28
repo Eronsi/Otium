@@ -1,0 +1,19 @@
+﻿@using System.Net
+@model Otium.Domain.Response.BaseResponse<List<Otium.Domain.Models.News>>
+
+@{
+    ViewData["Title"] = "Новости";
+    Layout = "_AdminLayout";
+}
+
+@if (Model.StatusCode != HttpStatusCode.OK)
+{
+    <h1>Error: @Model.Message</h1>
+}
+else
+{
+    foreach (var news in Model.Data!)
+    {
+        <p>@news.Title</p>
+    }
+}

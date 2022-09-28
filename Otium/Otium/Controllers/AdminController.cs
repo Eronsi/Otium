@@ -12,22 +12,28 @@ namespace Otium.Controllers;
 public class AdminController : Controller
 {
     private readonly IAccountService _accountService;
+    private readonly INewsService _newsService;
 
-    public AdminController(IAccountService accountService)
+    public AdminController(IAccountService accountService, INewsService newsService)
     {
         _accountService = accountService;
+        _newsService = newsService;
     }
-    
+
     [HttpGet, Authorize(Roles = "Admin")]
-    public IActionResult Index()
+    public IActionResult Index() => RedirectToAction("News");
+
+    [HttpGet, Authorize(Roles = "Admin")]
+    public async Task<IActionResult> News()
     {
-        return View();
+        var news = await _newsService.GetNewsAsync();
+        return View(news);
     }
 
     [HttpGet]
     public IActionResult Login(string? returnUrl = null) =>
         User.Identity!.IsAuthenticated
-            ? RedirectToAction("Index", "Admin")
+            ? RedirectToAction("Index")
             : View(new LoginViewModel { ReturnUrl = returnUrl });
 
     [HttpPost]
@@ -44,7 +50,7 @@ public class AdminController : Controller
 
             if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                 return Redirect(model.ReturnUrl);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
         ModelState.AddModelError("", response.Message);
         return View(model);
@@ -54,6 +60,6 @@ public class AdminController : Controller
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Login");
     }
 }

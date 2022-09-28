@@ -2,11 +2,22 @@
 
 @{
     ViewData["Title"] = "Вход";
+    Layout = "_Layout";
 }
 
-<form autocomplete="on" method="post" asp-controller="Admin" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
-    <div asp-validation-summary="All" class="text-danger text-center"></div>
-    <input autocomplete="username" asp-for="Username" placeholder="Логин" type="text">
-    <input autocomplete="password" asp-for="Password" placeholder="Пароль" type="password">
-    <button>Отправить</button>
-</form>
+
+<div class="row justify-content-center">
+    <div class="col-4 pt-5">
+        <form autocomplete="on" method="post" asp-controller="Admin" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+                <div class="form-outline mb-4">
+                    <input autocomplete="username" asp-for="Username" placeholder="Логин" type="text" class="form-control"/>
+                </div>
+            
+                <div class="form-outline mb-4">
+                    <input autocomplete="password" asp-for="Password" placeholder="Пароль" type="password" class="form-control"/>
+                </div>
+            
+                <button class="btn btn-primary">Войти</button>
+            </form>
+    </div>
+</div>
