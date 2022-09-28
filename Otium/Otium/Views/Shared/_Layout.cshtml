@@ -1,4 +1,6 @@
-﻿<!doctype html>
+﻿@inject IConfiguration _configuration;
+
+<!doctype html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -64,6 +66,7 @@
             </div>
           <div class="modal-body text-center">
             <p class="text-center">InDev...</p>
+            @* ToDo: Get the secret to the controller to send the message *@
             @* <form id="callback" method="post" asp-action="Callback" asp-controller="Home"> *@
             @*     <div class="control-group"> *@
             @*         <div class="form-group floating-label-form-group controls"> *@
@@ -192,9 +195,9 @@
   <!-- Copyright -->
   <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
     Дизайн и вёрстка:
-    <a class="text-reset fw-bold" href="https://t.me/ciith" target="_blank">Nikita Kurlanchik</a>
+    <a class="text-reset fw-bold" href=@_configuration.GetSection("Contacts:UI:Tg").Value target="_blank">@_configuration.GetSection("Contacts:UI:Name").Value</a>
     | Программирование:
-    <a class="text-reset fw-bold" href="https://t.me/sammur02" target="_blank">Seymur Ibrahimov</a>
+    <a class="text-reset fw-bold" href=@_configuration.GetSection("Contacts:Backend:Tg").Value target="_blank">@_configuration.GetSection("Contacts:Backend:Name").Value</a>
   </div>
   <!-- Copyright -->
 </footer>

@@ -62,7 +62,8 @@
                                         var value = $"{paramValue.NameRus} (+{paramValue.Price}) руб.";
                                         <option value=@paramValue.Name>@value</option>
                                     }
-
+                                    
+                                    @* ToDo: Implement is_selected for parameters *@
                                     @* <?php foreach($param['values'] as $value): ?> *@
                                     @* <?php if($value['is_selected']): ?> *@
                                     @* <option value=<?=$value['name']?> selected> *@
