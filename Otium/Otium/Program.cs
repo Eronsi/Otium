@@ -9,6 +9,8 @@ using Otium.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var aspEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
 #if DEBUG
 builder.Services.AddControllersWithViews()
     .AddRazorRuntimeCompilation();
@@ -45,7 +47,7 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 
 var configuration = new ConfigurationBuilder()
     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-    .AddJsonFile("appsettings.json", true, true)
+    .AddJsonFile("appsettings" + (aspEnv is null ? "" : $".{aspEnv}") + ".json", true, true)
     .AddUserSecrets<Program>()
     .Build();
 
