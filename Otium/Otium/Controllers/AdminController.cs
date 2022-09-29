@@ -27,6 +27,8 @@ public class AdminController : Controller
     public async Task<IActionResult> News()
     {
         var news = await _newsService.GetNewsAsync();
+        // news.StatusCode = HttpStatusCode.InternalServerError;
+        // news.Message = "error message";
         return View(news);
     }
 
@@ -61,5 +63,23 @@ public class AdminController : Controller
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Login");
+    }
+    
+    [HttpPost, Authorize(Roles = "Admin"), Route("Admin/News/Remove/")]
+    public async Task<IActionResult> RemoveNews(int id)
+    {
+        var response = await _newsService.DeleteNewsAsync(id);
+        if (response.StatusCode != HttpStatusCode.OK)
+            return Json(response);
+        return RedirectToAction("News");
+    }
+    
+    [HttpGet, Authorize(Roles = "Admin"), Route("Admin/News/Edit/{id:int}")]
+    public async Task<IActionResult> EditNewsView(int id)
+    {
+        var response = await _newsService.GetNewsByIdAsync(id);
+        if (response.StatusCode != HttpStatusCode.OK)
+            return Json(response);
+        return View("EditNews", response.Data);
     }
 }

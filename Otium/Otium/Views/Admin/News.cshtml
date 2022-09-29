@@ -6,14 +6,40 @@
     Layout = "_AdminLayout";
 }
 
+<h1 class="display-4 text-dark text-center mb-md-4 py-5">Список новостей:</h1>
 @if (Model.StatusCode != HttpStatusCode.OK)
 {
-    <h1>Error: @Model.Message</h1>
+    <h1 class="text-danger">Error: @Model.Message</h1>
 }
 else
 {
-    foreach (var news in Model.Data!)
-    {
-        <p>@news.Title</p>
-    }
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Дата публикации</th>
+                <th scope="col">Заголовок</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var news in Model.Data!)
+            {
+                <tr>
+                    <td>@news.CreationDate.ToString("MM'/'dd'/'yyyy")</td>
+                    <td>@news.Title</td>
+                    <td class="text-end">
+                        <a href="/Admin/News/Edit/@news.Id" class="btn">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <form method="post" asp-action="RemoveNews" asp-controller="Admin" class="d-inline">
+                            <button class="btn"><i class="fa-solid fa-trash"></i></button>
+                            <input name="id" type="hidden" value="@news.Id">
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 }

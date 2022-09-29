@@ -90,6 +90,10 @@ public class NewsService : INewsService
                 StatusCode = HttpStatusCode.InternalServerError,
                 Message = "News not deleted"
             };
+        
+        var path = $"wwwroot/img/news/news{id}.png";
+        if (File.Exists(path))
+            File.Delete(path);
 
         return new BaseResponse<bool>
         {
