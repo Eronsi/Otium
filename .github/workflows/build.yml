@@ -41,6 +41,7 @@ jobs:
         run: cd /tmp/Otium/Otium && dotnet publish -c Release -o /var/www/otium/release
 
       - name: Remove app src
+        if: always()
         id: remove-src
         run: rm -rf /tmp/Otium
         
