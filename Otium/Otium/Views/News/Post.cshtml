@@ -19,7 +19,7 @@
                     var imagePath = $"/img/news/news{Model.Id}.jpg";
                     <img src=@imagePath alt="">
                     <p class="h6 text-muted text-center py-4"> @Model.Description </p>
-                    <p class="far fa-calendar-alt text-end m-3"> @Model.CreationDate.ToString("MM'/'dd'/'yyyy") </p>
+                    <p class="far fa-calendar-alt text-end m-3"> @Model.CreationDate.ToString("dd'/'MM'/'yyyy") </p>
                 }
             </div>
         </div>

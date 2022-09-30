@@ -28,8 +28,6 @@ public class AdminController : Controller
     public async Task<IActionResult> News()
     {
         var news = await _newsService.GetNewsAsync();
-        // news.StatusCode = HttpStatusCode.InternalServerError;
-        // news.Message = "error message";
         return View(news);
     }
 
