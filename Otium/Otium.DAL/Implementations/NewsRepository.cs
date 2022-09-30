@@ -9,7 +9,7 @@ public class NewsRepository : BaseRepository, INewsRepository
     public NewsRepository(ApplicationDbContext db) : base(db)
     {
     }
-
+    
     public async Task<List<News>> GetNewsAsync() =>
         await (from news in _db.News
             orderby news.Id descending
@@ -20,6 +20,7 @@ public class NewsRepository : BaseRepository, INewsRepository
 
     public async Task<News> AddNewsAsync(News news)
     {
+        news.Id = 0;
         var entity = _db.News.Add(news);
         await _db.SaveChangesAsync();
         return entity.Entity;
@@ -39,6 +40,8 @@ public class NewsRepository : BaseRepository, INewsRepository
             return await Task.FromResult(false);
         
         _db.News.Remove(entity);
+        await _db.CheckIdent(nameof(_db.News), id);
+
         await _db.SaveChangesAsync();
         return await Task.FromResult(true);
     }

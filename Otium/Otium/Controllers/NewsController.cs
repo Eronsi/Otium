@@ -22,9 +22,6 @@ public class NewsController : Controller
     public async Task<IActionResult> Index()
     {
         var news = await _newsService.GetNewsAsync();
-        if (news.StatusCode != HttpStatusCode.OK)
-            return Error();
-        
         var viewModel = new NewsViewModel
         {
             News = news.Data

@@ -9,6 +9,7 @@
 <div class="row justify-content-center">
     <div class="col-4 pt-5">
         <form autocomplete="on" method="post" asp-controller="Admin" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+            <div asp-validation-summary="All" style="font-size:23px;" class="text-danger text-center"></div>
                 <div class="form-outline mb-4">
                     <input autocomplete="username" asp-for="Username" placeholder="Логин" type="text" class="form-control"/>
                 </div>

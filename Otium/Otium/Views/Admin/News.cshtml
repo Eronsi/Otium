@@ -4,12 +4,22 @@
 @{
     ViewData["Title"] = "Новости";
     Layout = "_AdminLayout";
+    var newId = Model.Data?.Count + 1 ?? 1;
 }
 
-<h1 class="display-4 text-dark text-center mb-md-4 py-5">Список новостей:</h1>
-@if (Model.StatusCode != HttpStatusCode.OK)
+<h1 class="display-4 text-dark text-center">Список новостей:</h1>
+
+<div class="text-end">
+    <a href="/Admin/News/Update/@newId" class="btn btn-primary justify-content-end">Добавить новость</a>
+</div>
+
+@if (Model.StatusCode == HttpStatusCode.NotFound)
 {
-    <h1 class="text-danger">Error: @Model.Message</h1>
+    <h4 class="text-center py-4">Новостей нет.</h4>
+}
+else if (Model.StatusCode != HttpStatusCode.OK)
+{
+    <h4 class="text-center">Error: @Model.Message</h4>
 }
 else
 {
@@ -29,7 +39,7 @@ else
                     <td>@news.CreationDate.ToString("MM'/'dd'/'yyyy")</td>
                     <td>@news.Title</td>
                     <td class="text-end">
-                        <a href="/Admin/News/Edit/@news.Id" class="btn">
+                        <a href="/Admin/News/Update/@news.Id" class="btn">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                         <form method="post" asp-action="RemoveNews" asp-controller="Admin" class="d-inline">

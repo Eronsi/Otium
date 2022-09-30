@@ -16,7 +16,7 @@
         <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12 align-items-center justify-content-between text-start">
             <div class="bg-light">
                 @{
-                    var imagePath = $"/img/news/news{Model.Id}.png";
+                    var imagePath = $"/img/news/news{Model.Id}.jpg";
                     <img src=@imagePath alt="">
                     <p class="h6 text-muted text-center py-4"> @Model.Description </p>
                     <p class="far fa-calendar-alt text-end m-3"> @Model.CreationDate.ToString("MM'/'dd'/'yyyy") </p>

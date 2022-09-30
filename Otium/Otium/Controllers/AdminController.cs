@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Otium.Domain.Models;
 using Otium.Domain.ViewModels;
 using Otium.Services.Abstractions;
 
@@ -73,13 +74,27 @@ public class AdminController : Controller
             return Json(response);
         return RedirectToAction("News");
     }
-    
-    [HttpGet, Authorize(Roles = "Admin"), Route("Admin/News/Edit/{id:int}")]
-    public async Task<IActionResult> EditNewsView(int id)
+
+    [HttpGet, Authorize(Roles = "Admin"), Route("Admin/News/Update/{id:int}")]
+    public async Task<IActionResult> UpdateNewsView(int id)
     {
         var response = await _newsService.GetNewsByIdAsync(id);
+        return View("UpdateNews", response.StatusCode == HttpStatusCode.OK
+            ? new UpdateNewsViewModel {IsNew = false, News = response.Data!}
+            : new UpdateNewsViewModel {IsNew = true, News = new News {Id = id}});
+    }
+
+    [HttpPost, Authorize(Roles = "Admin"), Route("Admin/News/Update/")]
+    public async Task<IActionResult> UpdateNews(UpdateNewsViewModel model)
+    {
+        if (!ModelState.IsValid) return View("UpdateNews", model);
+
+        var response =  model.IsNew 
+            ? await _newsService.AddNewsAsync(model.News!)
+            : await _newsService.UpdateNewsAsync(model.News!);
         if (response.StatusCode != HttpStatusCode.OK)
             return Json(response);
-        return View("EditNews", response.Data);
+
+        return RedirectToAction("News");
     }
 }

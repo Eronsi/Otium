@@ -1,0 +1,41 @@
+﻿@model Otium.Domain.ViewModels.UpdateNewsViewModel
+
+@{
+    ViewData["Title"] = (Model.IsNew ? "Создание" : "Редактирование") + " новости";
+    Layout = "_AdminLayout";
+    
+    var title = Model.News?.Title ?? string.Empty;
+    var shortDescription = Model.News?.ShortDescription ?? string.Empty;
+    var description = Model.News?.Description ?? string.Empty;
+    var creationDate = Model.News?.CreationDate ?? DateTime.Now;
+}
+
+<h1 class="display-4 text-dark text-center">@ViewData["Title"]</h1>
+
+<form action="/Admin/News/Update" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" style="font-size:23px;" class="text-danger text-center"></div>
+    <div class="form-group pb-3">
+        <label for="title">Заголовок</label>
+        <input asp-for="News!.Title" type="text" class="form-control" id="title" value="@title">
+    </div>
+    <div class="form-group pb-3">
+        <label for="shortDescription">Краткое описание</label>
+        <textarea asp-for="News!.ShortDescription" class="form-control" id="shortDescription" rows="3">@shortDescription</textarea>
+    </div>
+    <div class="form-group pb-3">
+        <label for="description">Полное описание</label>
+        <textarea asp-for="News!.Description" class="form-control" id="description" rows="3">@description</textarea>
+    </div>
+    <div class="form-group py-3">
+        <label for="image" class="form-label">Изображение</label>
+        <input asp-for="News!.Image" class="form-control form-control-sm" id="image" type="file"/>
+    </div>
+    
+    <input type="hidden" asp-for="IsNew" value="@Model.IsNew">
+    <input type="hidden" asp-for="News!.Id" value="@Model.News!.Id">
+    <input type="hidden" asp-for="News!.CreationDate" value="@creationDate">
+
+    <div class="form-group text-end">
+        <button class="btn btn-primary">Отправить</button>
+    </div>
+</form>

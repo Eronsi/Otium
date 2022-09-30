@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using ImageMagick;
+using Microsoft.AspNetCore.Http;
 using Otium.Domain.Models;
 using Otium.Domain.Response;
 using Otium.Repositories.Interfaces;
@@ -56,6 +58,14 @@ public class NewsService : INewsService
                 StatusCode = HttpStatusCode.InternalServerError,
                 Message = "News not added"
             };
+        
+        var isImageProcessed = ProcessImage(news.Image!, news.Id, out var exception);
+        if (!isImageProcessed)
+            return new BaseResponse<News>
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                Message = exception
+            };
 
         return new BaseResponse<News>
         {
@@ -66,6 +76,14 @@ public class NewsService : INewsService
 
     public async Task<BaseResponse<News>> UpdateNewsAsync(News news)
     {
+        var isImageProcessed = ProcessImage(news.Image!, news.Id, out var exception);
+        if (!isImageProcessed)
+            return new BaseResponse<News>
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                Message = exception
+            };
+        
         var updatedNews = await _repository.UpdateNewsAsync(news);
         if (!updatedNews.Equals(news))
             return new BaseResponse<News>
@@ -91,7 +109,7 @@ public class NewsService : INewsService
                 Message = "News not deleted"
             };
         
-        var path = $"wwwroot/img/news/news{id}.png";
+        var path = $"wwwroot/img/news/news{id}.jpg";
         if (File.Exists(path))
             File.Delete(path);
 
@@ -100,6 +118,38 @@ public class NewsService : INewsService
             StatusCode = HttpStatusCode.OK,
             Data = deleted
         };
+    }
+
+    private static bool ProcessImage(IFormFile image, int id, out string exception)
+    {
+        exception = string.Empty;
+        
+        try
+        {
+            // Convert image to jpg
+            using var imageMagick = new MagickImage(image.OpenReadStream());
+            using var imageMemStream = new MemoryStream();
+            imageMagick.Write(imageMemStream, MagickFormat.Jpg);
+            
+            // Write image to memory
+            var path = $"wwwroot/img/news/news{id}.jpg";
+            using var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
+            imageMemStream.WriteTo(fileStream);
+            fileStream.Close();
+
+            // Optimize image
+            var fileInfo = new FileInfo(path);
+            var optimizer = new ImageOptimizer();
+            optimizer.LosslessCompress(fileInfo);
+            fileInfo.Refresh();
+            
+            return true;
+        }
+        catch (Exception e)
+        {
+            exception = e.Message;
+            return false;
+        }
     }
     
     #region Dispose

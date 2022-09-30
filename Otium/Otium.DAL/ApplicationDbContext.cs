@@ -32,4 +32,11 @@ public class ApplicationDbContext : DbContext
     
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public DbSet<User> Users { get; set; }
+
+    public async Task CheckIdent(string table, int reseedTo)
+    {
+        reseedTo = reseedTo == 1 ? 1 : reseedTo - 1;
+        var sql = $"DBCC CHECKIDENT ('{table}', RESEED, {reseedTo})";
+        await Database.ExecuteSqlRawAsync(sql);
+    }
 }
