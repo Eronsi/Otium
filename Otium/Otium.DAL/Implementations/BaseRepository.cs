@@ -40,7 +40,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         try
         {
             Db.Set<T>().Remove(entity);
-            await Db.CheckIdent(nameof(T), id);
+            await Db.CheckIdent(entity, id);
             await Db.SaveChangesAsync();
             return true;
         }

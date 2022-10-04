@@ -16,8 +16,6 @@ public class ApplicationDbContext : DbContext
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public DbSet<Admins> Admins { get; set; }
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
-    public DbSet<Callbacks> Callbacks { get; set; }
-    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public DbSet<Categories> Categories { get; set; }
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public DbSet<News> News { get; set; }
@@ -33,10 +31,12 @@ public class ApplicationDbContext : DbContext
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public DbSet<User> Users { get; set; }
 
-    public async Task CheckIdent(string table, int reseedTo)
+    public async Task CheckIdent<T>(T entity, int reseedTo)
     {
+        var tableName = entity?.GetType().Name ?? throw new ArgumentException("Entity is null");
         reseedTo = reseedTo == 1 ? 1 : reseedTo - 1;
-        var sql = $"DBCC CHECKIDENT ('{table}', RESEED, {reseedTo})";
+        var sql = $"DBCC CHECKIDENT ('{tableName}', RESEED, {reseedTo})";
+        
         await Database.ExecuteSqlRawAsync(sql);
     }
 }

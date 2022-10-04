@@ -33,7 +33,6 @@ public class CategoriesService : ICategoriesService
     public async Task<BaseResponse<Categories?>> GetCategoryByIdAsync(int id)
     {
         var response = await _repository.FindByAsync(c => c.Id == id);
-        var category = response.First();
         if (response.Count == 0)
             return new BaseResponse<Categories?>
             {
@@ -44,7 +43,7 @@ public class CategoriesService : ICategoriesService
         return new BaseResponse<Categories?>
         {
             StatusCode = HttpStatusCode.OK,
-            Data = category
+            Data = response.First()
         };
     }
 
