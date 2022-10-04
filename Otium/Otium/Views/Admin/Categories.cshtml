@@ -1,0 +1,55 @@
+﻿@using System.Net
+@model Otium.Domain.Response.BaseResponse<List<Otium.Domain.Models.Categories>>
+
+@{
+    ViewData["Title"] = "Категории";
+    Layout = "_AdminLayout";
+    var newId = Model.Data?.Count + 1 ?? 1;
+}
+
+<h1 class="display-4 text-dark text-center">Список категорий:</h1>
+
+<div class="text-end">
+    <a href="/Admin/Categories/Update/@newId" class="btn btn-primary justify-content-end">Добавить категорию</a>
+</div>
+
+@if (Model.StatusCode == HttpStatusCode.NotFound)
+{
+    <h4 class="text-center py-4">Категорий нет.</h4>
+}
+else if (Model.StatusCode != HttpStatusCode.OK)
+{
+    <h4 class="text-center">Error: @Model.Message</h4>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Название на русском</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var category in Model.Data!)
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td>@category.NameRus</td>
+                    <td class="text-end">
+                        <a href="/Admin/Categories/Update/@category.Id" class="btn">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <form method="post" asp-action="RemoveCategory" asp-controller="Admin" class="d-inline">
+                            <button class="btn"><i class="fa-solid fa-trash"></i></button>
+                            <input name="id" type="hidden" value="@category.Id">
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

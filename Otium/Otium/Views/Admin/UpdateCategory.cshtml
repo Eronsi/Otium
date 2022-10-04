@@ -1,0 +1,30 @@
+﻿@model Otium.Domain.ViewModels.UpdateCategoryViewModel
+
+@{
+    ViewData["Title"] = (Model.IsNew ? "Создание" : "Редактирование") + " категории";
+    Layout = "_AdminLayout";
+    
+    var name = Model.Category?.Name ?? string.Empty;
+    var nameRus = Model.Category?.NameRus ?? string.Empty;
+}
+
+<h1 class="display-4 text-dark text-center">@ViewData["Title"]</h1>
+
+<form action="/Admin/Categories/Update" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" style="font-size:23px;" class="text-danger text-center"></div>
+    <div class="form-group pb-3">
+        <label for="name">Название</label>
+        <input asp-for="Category!.Name" type="text" class="form-control" id="name" value="@name">
+    </div>
+    <div class="form-group pb-3">
+        <label for="nameRus">Название на русском</label>
+        <input asp-for="Category!.NameRus" type="text" class="form-control" id="nameRus" value="@nameRus">
+    </div>
+
+    <input type="hidden" asp-for="IsNew" value="@Model.IsNew">
+    <input type="hidden" asp-for="Category!.Id" value="@Model.Category!.Id">
+
+    <div class="form-group text-end">
+        <button class="btn btn-primary">Отправить</button>
+    </div>
+</form>

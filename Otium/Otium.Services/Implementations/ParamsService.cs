@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Otium.Domain.Models;
 using Otium.Domain.Response;
-using Otium.Repositories.Interfaces;
+using Otium.Repositories.Abstractions;
 using Otium.Services.Abstractions;
 
 namespace Otium.Services.Implementations;
@@ -10,12 +10,14 @@ public class ParamsService : IParamsService
 {
     private readonly IParamsRepository _repository;
 
-    public ParamsService(IParamsRepository paramsRepository) =>
-        _repository = paramsRepository;
-    
+    public ParamsService(IParamsRepository repository)
+    {
+        _repository = repository;
+    }
+
     public async Task<BaseResponse<List<Params>>> GetParamsAsync(int productId)
     {
-        var paramsList = await _repository.GetParamsAsync(productId);
+        var paramsList = await _repository.FindByAsync(p => p.ProductId == productId);
         if (paramsList.Count == 0)
             return new BaseResponse<List<Params>>
             {
@@ -30,26 +32,9 @@ public class ParamsService : IParamsService
         };
     }
 
-    public async Task<BaseResponse<Params?>> GetParamByIdAsync(int id)
-    {
-        var param = await _repository.GetParamByIdAsync(id);
-        if (param is null)
-            return new BaseResponse<Params?>
-            {
-                StatusCode = HttpStatusCode.NotFound,
-                Message = "Param not found"
-            };
-
-        return new BaseResponse<Params?>
-        {
-            StatusCode = HttpStatusCode.OK,
-            Data = param
-        };
-    }
-
     public async Task<BaseResponse<Params>> AddParamAsync(Params param)
     {
-        var newParam = await _repository.AddParamAsync(param);
+        var newParam = await _repository.AddAsync(param);
         if (!newParam.Equals(param))
             return new BaseResponse<Params>
             {
@@ -66,7 +51,7 @@ public class ParamsService : IParamsService
 
     public async Task<BaseResponse<Params>> UpdateParamAsync(Params param)
     {
-        var updatedParam = await _repository.UpdateParamAsync(param);
+        var updatedParam = await _repository.UpdateAsync(param);
         if (!updatedParam.Equals(param))
             return new BaseResponse<Params>
             {
@@ -83,7 +68,15 @@ public class ParamsService : IParamsService
 
     public async Task<BaseResponse<bool>> DeleteParamAsync(int id)
     {
-        var deleted = await _repository.DeleteParamAsync(id);
+        var param = await _repository.FindByAsync(p => p.Id == id);
+        if (param.Count == 0)
+            return new BaseResponse<bool>
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Message = "Param not found"
+            };
+        
+        var deleted = await _repository.RemoveAsync(param.First(), id);
         if (!deleted)
             return new BaseResponse<bool>
             {

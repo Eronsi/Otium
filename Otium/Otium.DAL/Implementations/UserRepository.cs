@@ -1,15 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Otium.Domain.Models;
-using Otium.Repositories.Interfaces;
+﻿using Otium.Domain.Models;
+using Otium.Repositories.Abstractions;
 
 namespace Otium.Repositories.Implementations;
 
-public class UserRepository : BaseRepository, IUserRepository
+public class UserRepository : BaseRepository<User>, IUserRepository
 {
     public UserRepository(ApplicationDbContext db) : base(db)
     {
     }
-
-    public async Task<User?> GetByUsernameAsync(string username) =>
-        await _db.Users.FirstOrDefaultAsync(u => u.Username == username);
 }

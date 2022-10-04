@@ -14,11 +14,14 @@ public class AdminController : Controller
 {
     private readonly IAccountService _accountService;
     private readonly INewsService _newsService;
+    private readonly ICategoriesService _categoriesService;
 
-    public AdminController(IAccountService accountService, INewsService newsService)
+    public AdminController(IAccountService accountService, INewsService newsService, 
+        ICategoriesService categoriesService)
     {
         _accountService = accountService;
         _newsService = newsService;
+        _categoriesService = categoriesService;
     }
 
     [HttpGet, Authorize(Roles = "Admin")]
@@ -94,5 +97,44 @@ public class AdminController : Controller
             return Json(response);
 
         return RedirectToAction("News");
+    }
+    
+    [HttpGet, Authorize(Roles = "Admin"), Route("Admin/Categories/")]
+    public async Task<IActionResult> Categories()
+    {
+        var response = await _categoriesService.GetAllCategoriesAsync();
+        return View(response);
+    }
+    
+    [HttpPost, Authorize(Roles = "Admin"), Route("Admin/Categories/Remove/")]
+    public async Task<IActionResult> RemoveCategory(int id)
+    {
+        var response = await _categoriesService.DeleteCategoryAsync(id);
+        if (response.StatusCode != HttpStatusCode.OK)
+            return Json(response);
+        return RedirectToAction("Categories");
+    }
+    
+    [HttpGet, Authorize(Roles = "Admin"), Route("Admin/Categories/Update/{id:int}")]
+    public async Task<IActionResult> UpdateCategoryView(int id)
+    {
+        var response = await _categoriesService.GetCategoryByIdAsync(id);
+        return View("UpdateCategory", response.StatusCode == HttpStatusCode.OK
+            ? new UpdateCategoryViewModel {IsNew = false, Category = response.Data!}
+            : new UpdateCategoryViewModel {IsNew = true, Category = new Categories {Id = id}});
+    }
+    
+    [HttpPost, Authorize(Roles = "Admin"), Route("Admin/Categories/Update/")]
+    public async Task<IActionResult> UpdateCategory(UpdateCategoryViewModel model)
+    {
+        if (!ModelState.IsValid) return View("UpdateCategory", model);
+
+        var response =  model.IsNew 
+            ? await _categoriesService.AddCategoryAsync(model.Category!)
+            : await _categoriesService.UpdateCategoryAsync(model.Category!);
+        if (response.StatusCode != HttpStatusCode.OK)
+            return Json(response);
+
+        return RedirectToAction("Categories");
     }
 }

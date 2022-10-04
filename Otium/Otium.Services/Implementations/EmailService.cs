@@ -5,7 +5,7 @@ using MimeKit;
 using MimeKit.Text;
 using Otium.Domain.Models;
 using Otium.Domain.Response;
-using Otium.Repositories.Interfaces;
+using Otium.Repositories.Abstractions;
 using Otium.Services.Abstractions;
 
 namespace Otium.Services.Implementations;
@@ -15,8 +15,11 @@ public class EmailService : IEmailService
     private readonly IEmailRepository _repository;
     private readonly IConfiguration _configuration;
 
-    public EmailService(IEmailRepository repository, IConfiguration configuration) => 
-        (_repository, _configuration) = (repository, configuration);
+    public EmailService(IEmailRepository repository, IConfiguration configuration)
+    {
+        _repository = repository;
+        _configuration = configuration;
+    }
 
     public async Task<BaseResponse<Guid>> SendEmailAsync(Email request)
     {
@@ -44,11 +47,11 @@ public class EmailService : IEmailService
             await smtp.SendAsync(email);
             await smtp.DisconnectAsync(true);
 
-            var mailId = await _repository.AddMailToDbAsync(request);
+            var mailId = await _repository.AddAsync(request);
             return new BaseResponse<Guid>
             {
                 StatusCode = HttpStatusCode.OK,
-                Data = mailId
+                Data = mailId.Id
             };
         }
         catch (Exception e)

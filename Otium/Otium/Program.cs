@@ -4,10 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 using Otium.Domain.Models.Settings;
 using Otium.Repositories;
-using Otium.Repositories.Implementations;
-using Otium.Repositories.Interfaces;
-using Otium.Services.Abstractions;
-using Otium.Services.Implementations;
+using Otium.Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,27 +32,10 @@ builder.Services.AddControllersWithViews();
 System.Console.WriteLine("Release mode");
 #endif
 
-// Setting up the DI for the repositories
+// Setting up the DI
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ICallbacksRepository, CallbacksRepository>();
-builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>(); 
-builder.Services.AddScoped<INewsRepository, NewsRepository>();
-builder.Services.AddScoped<IParamsRepository, ParamsRepository>();
-builder.Services.AddScoped<IParamsValuesRepository, ParamsValuesRepository>();
-builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
-builder.Services.AddScoped<IEmailRepository, EmailRepository>();
-
-// Setting up the DI for the services
-
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<ICallbacksService, CallbacksService>();
-builder.Services.AddScoped<ICategoriesService, CategoriesService>();
-builder.Services.AddScoped<INewsService, NewsService>();
-builder.Services.AddScoped<IParamsService, ParamsService>();
-builder.Services.AddScoped<IParamsValuesService, ParamsValuesService>();
-builder.Services.AddScoped<IProductsService, ProductsService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.InitializeRepositories();
+builder.Services.InitializeServices();
 
 // Getting configuration from appsettings.json
 

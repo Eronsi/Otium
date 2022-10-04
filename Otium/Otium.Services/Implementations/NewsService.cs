@@ -3,7 +3,7 @@ using ImageMagick;
 using Microsoft.AspNetCore.Http;
 using Otium.Domain.Models;
 using Otium.Domain.Response;
-using Otium.Repositories.Interfaces;
+using Otium.Repositories.Abstractions;
 using Otium.Services.Abstractions;
 
 namespace Otium.Services.Implementations;
@@ -12,12 +12,14 @@ public class NewsService : INewsService
 {
     private readonly INewsRepository _repository;
 
-    public NewsService(INewsRepository repository) =>
+    public NewsService(INewsRepository repository)
+    {
         _repository = repository;
+    }
     
     public async Task<BaseResponse<List<News>>> GetNewsAsync()
     {
-        var news = await _repository.GetNewsAsync();
+        var news = await _repository.GetAllAsync(true);
         if (news.Count == 0)
             return new BaseResponse<List<News>>
             {
@@ -34,8 +36,8 @@ public class NewsService : INewsService
 
     public async Task<BaseResponse<News?>> GetNewsByIdAsync(int id)
     {
-        var news = await _repository.GetNewsByIdAsync(id);
-        if (news is null)
+        var news = await _repository.FindByAsync(n => n.Id == id);
+        if (news.Count == 0)
             return new BaseResponse<News?>
             {
                 StatusCode = HttpStatusCode.NotFound,
@@ -45,13 +47,13 @@ public class NewsService : INewsService
         return new BaseResponse<News?>
         {
             StatusCode = HttpStatusCode.OK,
-            Data = news
+            Data = news.First()
         };
     }
 
     public async Task<BaseResponse<News>> AddNewsAsync(News news)
     {
-        var addedNews = await _repository.AddNewsAsync(news);
+        var addedNews = await _repository.AddAsync(news);
         if (!addedNews.Equals(news))
             return new BaseResponse<News>
             {
@@ -84,7 +86,7 @@ public class NewsService : INewsService
                 Message = exception
             };
         
-        var updatedNews = await _repository.UpdateNewsAsync(news);
+        var updatedNews = await _repository.UpdateAsync(news);
         if (!updatedNews.Equals(news))
             return new BaseResponse<News>
             {
@@ -101,7 +103,15 @@ public class NewsService : INewsService
 
     public async Task<BaseResponse<bool>> DeleteNewsAsync(int id)
     {
-        var deleted = await _repository.DeleteNewsAsync(id);
+        var news = await _repository.FindByAsync(n => n.Id == id);
+        if (news.Count == 0)
+            return new BaseResponse<bool>
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Message = "News not found"
+            };
+        
+        var deleted = await _repository.RemoveAsync(news.First(), id);
         if (!deleted)
             return new BaseResponse<bool>
             {

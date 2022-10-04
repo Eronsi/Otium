@@ -3,7 +3,7 @@ using System.Security.Claims;
 using Otium.Domain.Models;
 using Otium.Domain.Response;
 using Otium.Domain.ViewModels;
-using Otium.Repositories.Interfaces;
+using Otium.Repositories.Abstractions;
 using Otium.Services.Abstractions;
 using Otium.Services.Utils;
 
@@ -20,9 +20,16 @@ public class AccountService : IAccountService
 
     public async Task<BaseResponse<ClaimsIdentity>> LoginAsync(LoginViewModel model)
     {
-        var user = await _repository.GetByUsernameAsync(model.Username);
-        if (user is null || 
-            !await PasswordService.VerifyPassword(model.Password,
+        var response = await _repository.FindByAsync(u => u.Username == model.Username);
+        if (response.Count == 0)
+            return new BaseResponse<ClaimsIdentity>
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Message = "Incorrect data"
+            };
+
+        var user = response.First();
+        if (!await PasswordService.VerifyPassword(model.Password,
                 new PasswordService.PasswordHashRecord(user.PasswordSalt, user.PasswordHash)))
             return new BaseResponse<ClaimsIdentity>
             {

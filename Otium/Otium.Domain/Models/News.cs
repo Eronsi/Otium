@@ -25,6 +25,6 @@ public class News
     
     [NotMapped]
     [Required(ErrorMessage = "Добавьте изображение")]
-    [IsFileImage(ErrorMessage = "Файл не является изображением")]
+    [ValidationAttributes.IsFileImageAttribute(ErrorMessage = "Файл не является изображением")]
     public IFormFile? Image { get; set; }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Otium.Domain.Models;
 using Otium.Domain.Response;
-using Otium.Repositories.Interfaces;
+using Otium.Repositories.Abstractions;
 using Otium.Services.Abstractions;
 
 namespace Otium.Services.Implementations;
@@ -10,12 +10,14 @@ public class ProductsService : IProductsService
 {
     private readonly IProductsRepository _repository;
     
-    public ProductsService(IProductsRepository repository) =>
+    public ProductsService(IProductsRepository repository)
+    {
         _repository = repository;
+    }
 
     public async Task<BaseResponse<List<Products>>> GetProductsByCategoryAsync(string category)
     {
-        var products = await _repository.GetProductsByCategoryAsync(category);
+        var products = await _repository.FindByAsync(p => p.CategoryName == category);
         if (products.Count == 0)
             return new BaseResponse<List<Products>>
             {
@@ -32,24 +34,24 @@ public class ProductsService : IProductsService
 
     public async Task<BaseResponse<Products?>> GetProductByNameAsync(string name)
     {
-        var product = await _repository.GetProductByNameAsync(name);
-        if (product is null)
+        var response = await _repository.FindByAsync(p => p.Name == name);
+        if (response.Count == 0)
             return new BaseResponse<Products?>
             {
                 StatusCode = HttpStatusCode.NotFound,
-                Message = "Product not found"
+                Message = "No products found"
             };
 
         return new BaseResponse<Products?>
         {
             StatusCode = HttpStatusCode.OK,
-            Data = product
+            Data = response.First()
         };
     }
 
     public async Task<BaseResponse<Products>> AddProductAsync(Products product)
     {
-        var newProduct = await _repository.AddProductAsync(product);
+        var newProduct = await _repository.AddAsync(product);
         if (!newProduct.Equals(product))
             return new BaseResponse<Products>
             {
@@ -66,7 +68,7 @@ public class ProductsService : IProductsService
 
     public async Task<BaseResponse<Products>> UpdateProductAsync(Products product)
     {
-        var updatedProduct = await _repository.UpdateProductAsync(product);
+        var updatedProduct = await _repository.UpdateAsync(product);
         if (!updatedProduct.Equals(product))
             return new BaseResponse<Products>
             {
@@ -83,7 +85,15 @@ public class ProductsService : IProductsService
 
     public async Task<BaseResponse<bool>> DeleteProductAsync(int id)
     {
-        var deleted = await _repository.DeleteProductAsync(id);
+        var product = await _repository.FindByAsync(p => p.Id == id);
+        if (product.Count == 0)
+            return new BaseResponse<bool>
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Message = "No products found"
+            };
+        
+        var deleted = await _repository.RemoveAsync(product.First(), id);
         if (!deleted)
             return new BaseResponse<bool>
             {
