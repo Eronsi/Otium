@@ -5,5 +5,6 @@ namespace Otium.Services.Abstractions;
 
 public interface IEmailService
 {
-    Task<BaseResponse<Guid>> SendEmailAsync(Email request);
+    Task<BaseResponse<string>> SendEmailAsync(Email request);
+    Task<BaseResponse<List<Email>>> GetLastEmailsByIpAsync(string ip, int minutes);
 }

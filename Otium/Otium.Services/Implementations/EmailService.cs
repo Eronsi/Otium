@@ -21,7 +21,7 @@ public class EmailService : IEmailService
         _configuration = configuration;
     }
 
-    public async Task<BaseResponse<Guid>> SendEmailAsync(Email request)
+    public async Task<BaseResponse<string>> SendEmailAsync(Email request)
     {
         var email = new MimeMessage();
         email.Subject = request.Subject;
@@ -30,7 +30,7 @@ public class EmailService : IEmailService
 
         var isToAddressCorrect = MailboxAddress.TryParse(request.To, out var to);
         if (!isToAddressCorrect)
-            return new BaseResponse<Guid>
+            return new BaseResponse<string>
             {
                 StatusCode = HttpStatusCode.BadRequest,
                 Message = "Некорректный адрес получателя"
@@ -48,7 +48,7 @@ public class EmailService : IEmailService
             await smtp.DisconnectAsync(true);
 
             var mailId = await _repository.AddAsync(request);
-            return new BaseResponse<Guid>
+            return new BaseResponse<string>
             {
                 StatusCode = HttpStatusCode.OK,
                 Data = mailId.Id
@@ -56,14 +56,33 @@ public class EmailService : IEmailService
         }
         catch (Exception e)
         {
-            return new BaseResponse<Guid>
+            return new BaseResponse<string>
             {
                 StatusCode = HttpStatusCode.InternalServerError,
                 Message = e.Message
             };
         }
     }
-    
+
+    public async Task<BaseResponse<List<Email>>> GetLastEmailsByIpAsync(string ip, int minutes)
+    {
+        var response = await _repository
+            .FindByAsync(email => email.Ip == ip && email.DateTime < DateTime.Now.AddMinutes(-minutes));
+        
+        if (response.Count == 0)
+            return new BaseResponse<List<Email>>
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Message = "Message not found"
+            };
+
+        return new BaseResponse<List<Email>>
+        {
+            StatusCode = HttpStatusCode.OK,
+            Data = response
+        };
+    }
+
     #region Dispose
 
     public void Dispose()

@@ -43,14 +43,24 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Callback(string name, string phone, string text)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Callback(CallbackModel model)
     {
+        var currentIp = Request.HttpContext.Connection.RemoteIpAddress?.ToString() ?? string.Empty;
+        var lastEmailByIp = await _emailService.GetLastEmailsByIpAsync(currentIp, 30);
+
+        if (lastEmailByIp.StatusCode == HttpStatusCode.OK && lastEmailByIp.Data!.Count >= 3)
+            return Content("Вы уже отправили 3 заявки в течение 30 минут.<br>" +
+                           "Попробуйте позже.");
+        
         var email = new Email
         {
             Subject = "Заказ обратного звонка",
             To = _configuration.GetSection("Email:CallbackTo").Value,
-            Text = $"Имя: {name}<br>Телефон: {phone}<br>Текст: {text}"
+            Text = $"Имя: {model.Name}<br>Телефон: {model.Phone}<br>Текст: {model.Text}",
+            Ip = currentIp
         };
+        
         var result = await _emailService.SendEmailAsync(email);
         if (result.StatusCode != HttpStatusCode.OK)
             return Content(result.Message);
