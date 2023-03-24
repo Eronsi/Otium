@@ -1,5 +1,5 @@
 # OtiumBuild
-### Site: https://otiumbuild.ru
+### Site: https://otium.mooronsi.dev/
 
 ### Technology Stack
 - Platform: [.NET](https://github.com/dotnet)
